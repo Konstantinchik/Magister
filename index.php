@@ -1,4 +1,7 @@
-<?php include 'header.php'; ?>
+<?php
+$pageTitle = 'Информатика — ПГУ';
+include 'header.php';
+?>
 
 <div class="text-center">
 

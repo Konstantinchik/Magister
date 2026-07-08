@@ -1,6 +1,11 @@
 <?php
 // footer.php
+$openMainContainer = $openMainContainer ?? true;
+$extraFooterScripts = $extraFooterScripts ?? '';
 ?>
+        <?php if ($openMainContainer): ?>
+        </div>
+        <?php endif; ?>
         </main>
 
         <footer class="mt-auto border-top bg-white">
@@ -15,6 +20,8 @@
 
         <!-- Главный JS сайта (в нём уже есть озвучка .speak-btn и прочая интерактивность) -->
         <script src="/assets/js/main.js"></script>
+
+        <?= $extraFooterScripts ?>
 
         <!-- Только год (без дублирования озвучки) -->
         <script>

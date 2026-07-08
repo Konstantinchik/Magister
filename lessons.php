@@ -1,62 +1,37 @@
 <?php
-// lessons.php — все 24 занятия + интерактив (локальные ресурсы, единый header/footer)
+// lessons.php — все 24 занятия + интерактив.
 
 $lesson = isset($_GET['n']) ? (int)$_GET['n'] : 1;
 if ($lesson < 1) $lesson = 1;
 if ($lesson > 24) $lesson = 24;
 
-// если у тебя контент хранится тут:
 $file = __DIR__ . "/data/lesson{$lesson}.php";
+$hasPascalTrainer = $lesson >= 19 && $lesson <= 24;
+
+$pageTitle = "Занятие {$lesson} — ПГУ • Информатика";
+$openMainContainer = false;
+$extraHead = $hasPascalTrainer
+    ? '    <link href="/assets/css/pascal-trainer.css" rel="stylesheet">' . PHP_EOL
+    : '';
+$extraFooterScripts = '';
+
+if ($hasPascalTrainer) {
+    $extraFooterScripts .= '        <script src="/assets/js/pascal-trainer.js"></script>' . PHP_EOL;
+}
+
+$extraFooterScripts .= <<<HTML
+        <script>
+        try {
+            localStorage.setItem('lastLesson', {$lesson});
+        } catch (e) {
+            console.warn('localStorage недоступен, последнее занятие не сохранено.', e);
+        }
+        </script>
+
+HTML;
+
+require __DIR__ . '/header.php';
 ?>
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Занятие <?= $lesson ?> — ПГУ • Информатика</title>
-
-    <!-- Favicons (ВАЖНО: абсолютные пути, чтобы работало на всех страницах) -->
-    <link rel="icon" type="image/png" href="/assets/images/icons/favicon.png">
-    <link rel="shortcut icon" type="image/png" href="/assets/images/icons/favicon.png">
-    <link rel="icon" sizes="128x128" type="image/png" href="/assets/images/icons/favicon128.png">
-    <link rel="apple-touch-icon" href="/assets/images/icons/favicon128.png">
-
-    <!-- Bootstrap local -->
-    <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles -->
-    <link href="/assets/css/style.css" rel="stylesheet">
-
-    <?php if ($lesson >= 19 && $lesson <= 24): ?>
-    <!-- Pascal-тренажёры: подсветка кода + интерпретатор + тренажёры -->
-    <link href="/assets/css/pascal-trainer.css" rel="stylesheet">
-    <?php endif; ?>
-</head>
-
-<body class="bg-light d-flex flex-column min-vh-100">
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
-    <div class="container">
-        <a class="navbar-brand fw-bold" href="/index.php">ПГУ • Информатика</a>
-
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navMenu">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/lessons.php">Курс</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/extra-lessons.php">Дополнительные занятия</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
-<main class="flex-grow-1">
 
     <!-- Инфо о занятии + прогресс-бар -->
     <div class="bg-white border-top border-bottom">
@@ -115,16 +90,5 @@ $file = __DIR__ . "/data/lesson{$lesson}.php";
         </div>
 
     </div>
-</main>
 
-<?php if ($lesson >= 19 && $lesson <= 24): ?>
-<!-- Pascal-тренажёры: подключаем перед footer, чтобы инициализация произошла после загрузки контента -->
-<script src="/assets/js/pascal-trainer.js" defer></script>
-<?php endif; ?>
-
-<?php include __DIR__ . '/footer.php'; ?>
-
-<script>
-    // Сохраняем последнее просмотренное занятие
-    localStorage.setItem('lastLesson', <?= $lesson ?>);
-</script>
+<?php require __DIR__ . '/footer.php'; ?>

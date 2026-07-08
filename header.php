@@ -1,12 +1,16 @@
 <?php
 // header.php
+$pageTitle = $pageTitle ?? 'ПГУ • Информатика';
+$extraHead = $extraHead ?? '';
+$openMainContainer = $openMainContainer ?? true;
+$mainContainerClass = $mainContainerClass ?? 'container';
 ?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ПГУ • Информатика</title>
+    <title><?= htmlspecialchars($pageTitle, ENT_QUOTES, 'UTF-8') ?></title>
 
     <!-- Favicons -->
     <link rel="icon" type="image/png" href="/assets/images/icons/favicon.png">
@@ -19,6 +23,8 @@
 
     <!-- Custom styles -->
     <link href="/assets/css/style.css" rel="stylesheet">
+
+    <?= $extraHead ?>
 </head>
 
 <body class="bg-light d-flex flex-column min-vh-100">
@@ -50,4 +56,6 @@
 </nav>
 
 <main class="flex-grow-1">
-    <div class="container">
+    <?php if ($openMainContainer): ?>
+    <div class="<?= htmlspecialchars($mainContainerClass, ENT_QUOTES, 'UTF-8') ?>">
+    <?php endif; ?>

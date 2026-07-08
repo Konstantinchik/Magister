@@ -52,6 +52,18 @@
 php -S localhost:8000
 ```
 
+На этой рабочей машине уже есть portable PHP:
+
+```text
+D:\MAGISTER\MagisterTest\vendor\php\php.exe
+```
+
+Если обычная команда `php` не найдена в `PATH`, запускайте сайт так:
+
+```powershell
+D:\MAGISTER\MagisterTest\vendor\php\php.exe -S 127.0.0.1:8000 -t D:\MAGISTER\Magister
+```
+
 После запуска сайт будет доступен по адресу:
 
 ```text
@@ -75,6 +87,8 @@ npm test
 ```bash
 npm run lint:php
 ```
+
+Скрипт `lint:php` сначала ищет portable PHP по пути `D:\MAGISTER\MagisterTest\vendor\php\php.exe`, а затем пробует обычную команду `php`.
 
 ## Ограничения
 

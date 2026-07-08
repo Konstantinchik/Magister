@@ -33,6 +33,7 @@ if ($id && isset($extraLessons[$id])) {
     $pageTitle = 'Дополнительные занятия';
 }
 
+$openMainContainer = false;
 require __DIR__ . '/header.php';
 ?>
 

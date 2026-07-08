@@ -799,17 +799,26 @@
         initBlanks();
         initReorder();
     }
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initAll);
-    } else {
-        initAll();
-    }
-
-    // Экспорт для отладки
+    // Экспорт для отладки и тестов должен появляться даже если DOM-инициализация
+    // конкретного тренажёра упадёт на нестандартной разметке.
     window.PascalTrainer = {
         run: PascalRunner,
         highlight: highlightPascal,
         init: initAll
     };
+
+    function safeInitAll() {
+        try {
+            initAll();
+        } catch (e) {
+            console.error('PascalTrainer initialization failed:', e);
+        }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', safeInitAll);
+    } else {
+        safeInitAll();
+    }
 
 })(window);

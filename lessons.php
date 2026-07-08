@@ -7,16 +7,18 @@ if ($lesson > 24) $lesson = 24;
 
 $file = __DIR__ . "/data/lesson{$lesson}.php";
 $hasPascalTrainer = $lesson >= 19 && $lesson <= 24;
+$pascalCssVersion = $hasPascalTrainer ? filemtime(__DIR__ . '/assets/css/pascal-trainer.css') : null;
+$pascalJsVersion = $hasPascalTrainer ? filemtime(__DIR__ . '/assets/js/pascal-trainer.js') : null;
 
 $pageTitle = "Занятие {$lesson} — ПГУ • Информатика";
 $openMainContainer = false;
 $extraHead = $hasPascalTrainer
-    ? '    <link href="/assets/css/pascal-trainer.css" rel="stylesheet">' . PHP_EOL
+    ? '    <link href="/assets/css/pascal-trainer.css?v=' . $pascalCssVersion . '" rel="stylesheet">' . PHP_EOL
     : '';
 $extraFooterScripts = '';
 
 if ($hasPascalTrainer) {
-    $extraFooterScripts .= '        <script src="/assets/js/pascal-trainer.js"></script>' . PHP_EOL;
+    $extraFooterScripts .= '        <script src="/assets/js/pascal-trainer.js?v=' . $pascalJsVersion . '"></script>' . PHP_EOL;
 }
 
 $extraFooterScripts .= <<<HTML

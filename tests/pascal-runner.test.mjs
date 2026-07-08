@@ -21,7 +21,32 @@ function loadPascalRunner() {
   return window.PascalTrainer.run;
 }
 
+function assertPascalTrainerExportsBeforeDomInitFailure() {
+  const source = readFileSync(join(process.cwd(), 'assets/js/pascal-trainer.js'), 'utf8');
+  const document = {
+    readyState: 'complete',
+    querySelectorAll(selector) {
+      if (selector.includes('pas-listing')) throw new Error('synthetic DOM failure');
+      return [];
+    }
+  };
+  const errors = [];
+  const window = { document };
+  const testConsole = {
+    ...console,
+    error(...args) {
+      errors.push(args.join(' '));
+    }
+  };
+
+  vm.runInNewContext(source, { window, document, console: testConsole }, { filename: 'pascal-trainer.js' });
+
+  assert.equal(typeof window.PascalTrainer?.run, 'function');
+  assert.ok(errors.some(line => line.includes('PascalTrainer initialization failed')));
+}
+
 const run = loadPascalRunner();
+assertPascalTrainerExportsBeforeDomInitFailure();
 
 const cases = [
   {

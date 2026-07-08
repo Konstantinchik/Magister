@@ -20,6 +20,10 @@ include 'header.php';
             Начать курс (24 занятия)
         </a>
 
+        <a href="/lessons.php" class="btn btn-outline-primary btn-lg px-5" data-resume-course>
+            Продолжить
+        </a>
+
         <a href="/extra-lessons.php" class="btn btn-primary btn-lg px-5">
             Дополнительные занятия
         </a>
@@ -28,6 +32,15 @@ include 'header.php';
             Открыть учебник (PDF)
         </a>
 
+    </div>
+
+    <div class="mt-4 d-flex flex-column flex-sm-row justify-content-center align-items-center gap-2">
+        <div class="small text-muted" data-course-progress-summary>
+            Прогресс сохраняется в этом браузере.
+        </div>
+        <button type="button" class="btn btn-link btn-sm text-muted" data-reset-course-progress>
+            Сбросить прогресс
+        </button>
     </div>
 
 </div>

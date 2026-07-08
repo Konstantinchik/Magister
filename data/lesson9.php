@@ -691,11 +691,6 @@
     <div class="card-body">
         <p>Когда ответил на все тесты — попробуй <strong>устно или письменно</strong> рассказать о теме урока, опираясь на блок «Краткая теория».</p>
         <textarea class="form-control mb-3" rows="6" placeholder="Можешь написать здесь свой развёрнутый рассказ для тренировки…"></textarea>
-        <div class="text-center">
-            <button type="button" class="btn btn-success btn-lg px-5" onclick="markLessonCompleted(9); this.outerHTML='<div class=\'alert alert-success mb-0\'><h5 class=\'mb-0\'>✓ Занятие отмечено как пройденное!</h5></div>';">
-                Я разобрал тему
-            </button>
-        </div>
     </div>
 </div>
 

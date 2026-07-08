@@ -46,7 +46,13 @@ require __DIR__ . '/header.php';
             </div>
 
             <div class="progress mt-2" style="height: 10px;">
-                <div id="globalProgress" class="progress-bar" role="progressbar" style="width: 0%;">0%</div>
+                <div id="globalProgress"
+                     class="progress-bar"
+                     role="progressbar"
+                     aria-valuemin="0"
+                     aria-valuemax="100"
+                     aria-valuenow="0"
+                     style="width: 0%;">0%</div>
             </div>
         </div>
     </div>
@@ -72,6 +78,26 @@ require __DIR__ . '/header.php';
                 echo '<div class="alert alert-warning">Материал для занятия ' . $lesson . ' пока не добавлен.</div>';
             }
             ?>
+        </div>
+
+        <div class="card mb-4 border-success-subtle" data-lesson-completion="<?= $lesson ?>">
+            <div class="card-body d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+                <div>
+                    <h2 class="h5 mb-1 text-success">Завершение занятия</h2>
+                    <p class="mb-0 text-muted">
+                        Отметьте занятие как пройденное, чтобы обновить общий прогресс курса.
+                    </p>
+                </div>
+                <button type="button"
+                        class="btn btn-success px-4"
+                        data-complete-lesson="<?= $lesson ?>">
+                    Отметить как пройденное
+                </button>
+            </div>
+            <div class="card-footer bg-success-subtle text-success fw-semibold d-none"
+                 data-completion-message>
+                Занятие отмечено как пройденное.
+            </div>
         </div>
 
         <!-- Кнопки вперёд/назад -->

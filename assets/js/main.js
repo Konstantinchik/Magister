@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 4) Глобальный прогресс
   updateGlobalProgress();
+  initCourseProgressControls();
 });
 
 // ──────────────────────────────────────────────────────────────────────────────
@@ -607,7 +608,16 @@ function updateGlobalProgress() {
   if (bar) {
     bar.style.width = percent + '%';
     bar.textContent = percent + '%';
+    bar.setAttribute('aria-valuenow', String(percent));
   }
+
+  document.querySelectorAll('[data-course-progress-summary]').forEach(el => {
+    el.textContent = completed
+      ? `Пройдено ${completed} из 24 занятий (${percent}%).`
+      : 'Прогресс сохраняется в этом браузере.';
+  });
+
+  updateLessonCompletionPanels();
 }
 
 // Вызывайте после успешного выполнения ключевого задания урока:
@@ -616,9 +626,102 @@ window.markLessonCompleted = function(lessonNum) {
     localStorage.setItem(`lesson_${lessonNum}_completed`, 'true');
   } catch (e) {
     console.warn('localStorage недоступен, не удалось сохранить прогресс.', e);
+    return false;
   }
   updateGlobalProgress();
+  return true;
 };
+
+function initCourseProgressControls() {
+  initLessonCompletionButtons();
+  initResumeCourseLink();
+  initResetCourseProgress();
+}
+
+function initLessonCompletionButtons() {
+  document.querySelectorAll('[data-complete-lesson]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const lessonNum = parseInt(btn.dataset.completeLesson, 10);
+      if (!lessonNum) return;
+
+      const saved = window.markLessonCompleted(lessonNum);
+      const panel = btn.closest('[data-lesson-completion]');
+      const msg = panel?.querySelector('[data-completion-message]');
+
+      if (saved) {
+        btn.textContent = 'Пройдено';
+        btn.classList.remove('btn-success');
+        btn.classList.add('btn-outline-success');
+        btn.disabled = true;
+        if (msg) msg.classList.remove('d-none');
+      } else if (msg) {
+        msg.textContent = 'Не удалось сохранить прогресс в этом браузере.';
+        msg.classList.remove('d-none', 'text-success', 'bg-success-subtle');
+        msg.classList.add('text-danger', 'bg-danger-subtle');
+      }
+    });
+  });
+}
+
+function updateLessonCompletionPanels() {
+  document.querySelectorAll('[data-lesson-completion]').forEach(panel => {
+    const lessonNum = parseInt(panel.dataset.lessonCompletion, 10);
+    const btn = panel.querySelector('[data-complete-lesson]');
+    const msg = panel.querySelector('[data-completion-message]');
+    if (!lessonNum || !btn) return;
+
+    let completed = false;
+    try {
+      completed = localStorage.getItem(`lesson_${lessonNum}_completed`) === 'true';
+    } catch (e) {
+      console.warn('localStorage недоступен, состояние занятия не прочитано.', e);
+    }
+
+    btn.textContent = completed ? 'Пройдено' : 'Отметить как пройденное';
+    btn.disabled = completed;
+    btn.classList.toggle('btn-success', !completed);
+    btn.classList.toggle('btn-outline-success', completed);
+    if (msg) msg.classList.toggle('d-none', !completed);
+  });
+}
+
+function initResumeCourseLink() {
+  const link = document.querySelector('[data-resume-course]');
+  if (!link) return;
+
+  link.href = '/lessons.php';
+  link.textContent = 'Продолжить';
+
+  try {
+    const lastLesson = parseInt(localStorage.getItem('lastLesson') || '', 10);
+    if (lastLesson >= 1 && lastLesson <= 24) {
+      link.href = `/lessons.php?n=${lastLesson}`;
+      link.textContent = `Продолжить с занятия ${lastLesson}`;
+    }
+  } catch (e) {
+    console.warn('localStorage недоступен, последнее занятие не прочитано.', e);
+  }
+}
+
+function initResetCourseProgress() {
+  const btn = document.querySelector('[data-reset-course-progress]');
+  if (!btn) return;
+
+  btn.addEventListener('click', () => {
+    try {
+      for (let i = 1; i <= 24; i++) {
+        localStorage.removeItem(`lesson_${i}_completed`);
+      }
+      localStorage.removeItem('lastLesson');
+    } catch (e) {
+      console.warn('localStorage недоступен, прогресс не сброшен.', e);
+      return;
+    }
+
+    updateGlobalProgress();
+    initResumeCourseLink();
+  });
+}
 
 // ============================================================
 // MCQ — Multiple Choice Questions (общий обработчик)

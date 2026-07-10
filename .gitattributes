@@ -1,0 +1,21 @@
+# Единая нормализация переводов строк: в репозитории — LF, при checkout — авто.
+# Избавляет от массовых CRLF-диффов, когда файлы редактируют на Windows.
+* text=auto eol=lf
+
+# Windows-скрипты должны оставаться с CRLF
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# Бинарные ресурсы — не трогать
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary
+*.pdf  binary
+*.zip  binary
+*.docx binary
+*.doc  binary
+*.mp4  binary
+*.mkv  binary

@@ -1,11 +1,32 @@
-/public_html/
-├── index.php              ← главная
-├── lessons.php            ← все 24 занятия (один файл, динамическая загрузка)
-├── extra-lessons.php      ← страница ссылок на дополнительные занятия
+СТРУКТУРА ПРОЕКТА MAGISTER
+==========================
+
+ПРАВИЛО: этот файл — карта структуры проекта, его нужно держать в актуальном
+состоянии. После КАЖДОГО добавления, удаления или переименования файла или
+папки обновите этот файл и проверьте актуальность командой:
+
+    npm run structure:check
+
+Проверка также запускается автоматически в `npm test` и в git-хуке pre-commit
+(см. CONTRIBUTING.md). Подробности правила — в CONTRIBUTING.md.
+
+Легенда: каталоги оканчиваются на «/», «…» означает пропущенный однотипный ряд.
+
+/
+├── index.php                  ← главная
+├── lessons.php                ← все 24 занятия (динамическая загрузка по ?n=)
+├── extra-lessons.php          ← страница дополнительных занятий
 ├── header.php
 ├── footer.php
-├── structure.txt
-├── .gitignore             ← исключения для git (видео, архивы, служебное)
+├── structure.txt              ← этот файл (карта структуры)
+├── README.md                  ← описание проекта
+├── CHANGELOG.md               ← история изменений
+├── CONTRIBUTING.md            ← правила разработки (в т.ч. про structure.txt)
+├── problems.md                ← заметки о решённых проблемах
+├── Magister-разбор.md         ← рабочие заметки по разбору проекта
+├── package.json               ← npm-скрипты (test, lint:php, structure:check)
+├── .gitignore
+├── .gitattributes            ← нормализация переводов строк (LF)
 │
 ├── assets/
 │   │
@@ -19,52 +40,65 @@
 │   ├── css/
 │   │   ├── bootstrap.min.css
 │   │   ├── bootstrap.min.css.map
-│   │   ├── style.css                          ← минималистичный дизайн в стиле ТГТУ
-│   │   └── pascal-trainer.css                 ← подсветка Pascal + стили мини-тренажёров (только для уроков 19-24)
+│   │   ├── style.css                          ← основной стиль (ТГТУ)
+│   │   ├── pascal-trainer.css                 ← стили Pascal-тренажёров (уроки 19-24)
+│   │   └── vendor/                            ← сторонние стили (резерв)
 │   │
 │   ├── js/
-│   │   ├── main.js                            ← общая интерактивность (TTS, drag&drop, проверки)
-│   │   ├── pascal-trainer.js                  ← подсветка Pascal + интерпретатор + 4 типа тренажёров (только для уроков 19-24)
+│   │   ├── main.js                            ← общая интерактивность (озвучка, drag&drop, проверки)
+│   │   ├── pascal-trainer.js                  ← подсветка + интерпретатор + тренажёры Pascal
 │   │   ├── bootstrap.bundle.js
 │   │   ├── bootstrap.bundle.js.map
 │   │   ├── bootstrap.bundle.min.js
-│   │   └── bootstrap.bundle.min.js.map
+│   │   ├── bootstrap.bundle.min.js.map
+│   │   └── vendor/                            ← сторонние скрипты (резерв)
 │   │
-│   ├── images/                                ← все картинки и схемы из рабочей тетради (155 шт.)
-│   │   │
+│   ├── images/                                ← картинки и схемы из рабочей тетради
 │   │   ├── autocad/
 │   │   │   ├── autocad1.png
 │   │   │   └── autocad2.png
-│   │   │
 │   │   ├── icons/
 │   │   │   ├── favicon.png
 │   │   │   └── favicon128.png
-│   │   │
 │   │   ├── image-0028.jpg
-│   │   │   ...
-│   │   └── image-0705.jpg
+│   │   │   …
+│   │   └── image-0705.jpg                     ← всего 155 файлов image-*.jpg
 │   │
 │   └── video/
-│       │
-│       ├── autocad/                           ← видео для уроков по AutoCAD
+│       ├── autocad/                           ← видео к урокам AutoCAD
 │       │   ├── Autocad1.mp4
 │       │   ├── Autocad2.mp4
 │       │   └── Autocad3.mp4
-│       │
-│       ├── pre_test/                          ← тестовые/черновые видео (не для прода)
-│       │
+│       ├── pre_test/                          ← черновые видео (не для прода)
 │       └── video_list.txt                     ← перечень видео
 │
-└── data/
-    │
-    ├── lesson1.php
-    │   ...
-    ├── lesson18.php                           ← занятия 1-18: словарь + текст из рабочей тетради
-    │
-    ├── lesson19.php                           ← занятия 19-24: Pascal с интерактивными мини-тренажёрами
-    │   ...                                       (▶ Запустить, Что выведет?, Заполни пропуск, Расставь по порядку)
-    ├── lesson24.php
-    │
-    └── extra-lessons/
-        ├── lesson-autocad.php
-        └── lesson-office-test.php
+├── data/
+│   ├── lesson1.php
+│   │   …
+│   ├── lesson18.php                           ← занятия 1-18: словарь + текст из рабочей тетради
+│   ├── lesson19.php
+│   │   …
+│   ├── lesson24.php                           ← занятия 19-24: Pascal с мини-тренажёрами
+│   └── extra-lessons/
+│       ├── lesson-autocad.php
+│       └── lesson-office-test.php
+│
+├── scripts/
+│   ├── php-lint.mjs                           ← проверка синтаксиса PHP (npm run lint:php)
+│   └── check-structure.mjs                    ← проверка актуальности structure.txt (npm run structure:check)
+│
+├── tests/
+│   └── pascal-runner.test.mjs                 ← юнит-тесты интерпретатора Pascal (npm test)
+│
+└── autotests/                                 ← браузерные автотесты (Playwright + Firefox)
+    ├── _common/
+    │   └── lesson1_firefox_common.mjs
+    ├── headed/
+    │   ├── lesson1_firefox_headed.mjs
+    │   └── run_lesson1_firefox_headed.bat
+    ├── headless/
+    │   ├── lesson1_firefox_headless.mjs
+    │   └── run_lesson1_firefox_headless.bat
+    ├── package.json
+    ├── package-lock.json
+    └── README.md

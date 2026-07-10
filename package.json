@@ -2,8 +2,6 @@
   "name": "magister",
   "private": true,
   "scripts": {
-    "test": "node tests/pascal-runner.test.mjs",
+    "test": "node scripts/check-structure.mjs && node tests/pascal-runner.test.mjs",
     "test:pascal": "node tests/pascal-runner.test.mjs",
-    "lint:php": "node scripts/php-lint.mjs"
-  }
-}
+    "lint:php": "

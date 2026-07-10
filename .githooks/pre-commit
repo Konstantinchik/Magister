@@ -1,0 +1,10 @@
+#!/bin/sh
+# Не даём закоммитить устаревший structure.txt. Обход: git commit --no-verify.
+# Включить хук: git config core.hooksPath .githooks
+if command -v node >/dev/null 2>&1; then
+  node "$(git rev-parse --show-toplevel)/scripts/check-structure.mjs" || {
+    echo ""
+    echo "Коммит остановлен: structure.txt устарел (см. CONTRIBUTING.md)."
+    exit 1
+  }
+fi

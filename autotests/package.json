@@ -1,0 +1,8 @@
+{
+  "name": "magister-lesson1-autotests",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "playwright": "1.49.1"
+  }
+}

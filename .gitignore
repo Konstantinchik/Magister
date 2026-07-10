@@ -49,6 +49,10 @@ $RECYCLE.BIN/
 # --- Локальные черновики и ручные бэкапы ---
 .dev-notes/backup/
 
+# --- Autotests local artifacts ---
+autotests/node_modules/
+autotests/*/reports/
+
 # --- PHP / общие веб-артефакты ---
 *.log
 error_log

@@ -22,7 +22,8 @@
 ├── README.md                  ← описание проекта
 ├── CHANGELOG.md               ← история изменений
 ├── CONTRIBUTING.md            ← правила разработки (в т.ч. про structure.txt)
-├── problems.md                ← заметки о решённых проблемах
+├── LICENSE                    ← лицензия проекта
+├── NOTICE.md                  ← уведомления и атрибуция
 ├── Magister-разбор.md         ← рабочие заметки по разбору проекта
 ├── package.json               ← npm-скрипты (test, lint:php, structure:check)
 ├── .gitignore
@@ -91,14 +92,13 @@
 │   └── pascal-runner.test.mjs                 ← юнит-тесты интерпретатора Pascal (npm test)
 │
 └── autotests/                                 ← браузерные автотесты (Playwright + Firefox)
-    ├── _common/
-    │   └── lesson1_firefox_common.mjs
-    ├── headed/
-    │   ├── lesson1_firefox_headed.mjs
-    │   └── run_lesson1_firefox_headed.bat
-    ├── headless/
-    │   ├── lesson1_firefox_headless.mjs
-    │   └── run_lesson1_firefox_headless.bat
+    ├── run.mjs                                ← движок: обход уроков, бот, отчёт
+    ├── lib/
+    │   ├── server.mjs                         ← поиск PHP + запуск php -S
+    │   ├── interact.mjs                       ← действия и проверки по типам заданий
+    │   └── runner.mjs                         ← прогон одной цели (урок/office)
+    ├── graphical.bat                          ← режим с окном и курсором бота (headed)
+    ├── console.bat                            ← режим без окна, отчёт в консоль
     ├── package.json
-    ├── package-lock.json
-    └── README.md
+    ├── README.md
+    └── reports/                               ← JSON-отчёты (в .gitignore)

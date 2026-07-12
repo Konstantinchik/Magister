@@ -1,7 +1,14 @@
 {
-  "name": "magister-lesson1-autotests",
+  "name": "magister-autotests",
   "private": true,
   "type": "module",
+  "description": "Браузерные автотесты сайта Magister (Playwright): бот проходит задания и проверяет реакцию интерфейса.",
+  "scripts": {
+    "test": "node run.mjs",
+    "graphical": "node run.mjs --headed",
+    "console": "node run.mjs",
+    "install-browser": "playwright install firefox"
+  },
   "dependencies": {
     "playwright": "1.49.1"
   }

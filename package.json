@@ -4,4 +4,7 @@
   "scripts": {
     "test": "node scripts/check-structure.mjs && node tests/pascal-runner.test.mjs",
     "test:pascal": "node tests/pascal-runner.test.mjs",
-    "lint:php": "
+    "lint:php": "node scripts/php-lint.mjs",
+    "structure:check": "node scripts/check-structure.mjs"
+  }
+}
